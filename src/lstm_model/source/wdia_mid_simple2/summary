@@ -1,0 +1,38 @@
+Model: "wdia_mid_simple2"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+hidden1 (LSTM)               (None, 64)                18176     
+_________________________________________________________________
+dropout (Dropout)            (None, 64)                0         
+_________________________________________________________________
+output (Dense)               (None, 1)                 65        
+=================================================================
+Total params: 18,241
+Trainable params: 18,241
+Non-trainable params: 0
+_________________________________________________________________
+
+
+   Number of Inputs:        6
+  Number of Outputs:        1
+
+          Optimizer:     adam
+      Dropout Ratio:     0.10
+         Activation:     relu
+         Batch Size:       32
+           Patience:       30
+          Max Epoch:    10000
+      Stopped Epoch:      284
+      Training Time:  0:04:45
+
+ Mean Squared Error:   3.8176E+01
+Mean Absolute Error:   4.2887E+00
+          R^2 Value:       0.9915
+
+        Window Size:       15
+Number of Train Data:     4037
+Number of  Test Data:     1010
+
+Data file from
+>>>/home/hcho/2022-2/vest-nn/data/preprocessed/30NOV22/all

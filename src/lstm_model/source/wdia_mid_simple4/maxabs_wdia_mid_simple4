@@ -1,0 +1,42 @@
+      IP = IP        130596.700000
+RMAJOR         0.452988
+AMINOR         0.327031
+ELONG          1.779078
+TRIA           0.433303
+QA             4.989458
+dtype: float64
+  RMAJOR = IP        130596.700000
+RMAJOR         0.452988
+AMINOR         0.327031
+ELONG          1.779078
+TRIA           0.433303
+QA             4.989458
+dtype: float64
+  AMINOR = IP        130596.700000
+RMAJOR         0.452988
+AMINOR         0.327031
+ELONG          1.779078
+TRIA           0.433303
+QA             4.989458
+dtype: float64
+   ELONG = IP        130596.700000
+RMAJOR         0.452988
+AMINOR         0.327031
+ELONG          1.779078
+TRIA           0.433303
+QA             4.989458
+dtype: float64
+    TRIA = IP        130596.700000
+RMAJOR         0.452988
+AMINOR         0.327031
+ELONG          1.779078
+TRIA           0.433303
+QA             4.989458
+dtype: float64
+      QA = IP        130596.700000
+RMAJOR         0.452988
+AMINOR         0.327031
+ELONG          1.779078
+TRIA           0.433303
+QA             4.989458
+dtype: float64

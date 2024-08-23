@@ -1,0 +1,9 @@
+#!/bin/bash
+#$ -N NN-TRAIN
+#$ -q E5-2680.q@node06 
+#$ -e /home/hcho/2022-2/vest-nn/nn/models/wdia_mid_simple2/script/NN-TRAIN.e 
+#$ -o /home/hcho/2022-2/vest-nn/nn/models/wdia_mid_simple2/script/NN-TRAIN.o 
+
+
+cd /home/hcho/2022-2/vest-nn/nn/models/wdia_mid_simple2
+/home/hcho/2022-2/vest-nn/nn/train_nn.py wdia_mid_simple2
