@@ -1,2 +1,0 @@
-TF 코일 전류,PF1 충전 전압,PF1_2 충전 전압,PF6 충전 전압,PF9 충전 전압,LFS 가스 주입 t0,LFS 가스 주입 dt,HFS 가스 주입 t0,HFS 가스 주입 dt,ECH 2.45 GHz 인가 여부,ECH 7.88 GHz 인가 여부,NBI t0,NBI dt,NBI 파워,wall condition
-405,3200,2400,1000,1650,400,1,0,0,0,1,0,0,0,NaN

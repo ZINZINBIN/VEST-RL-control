@@ -1,7 +1,7 @@
 import gym
 import numpy as np
 
-class Vest(gym.Env):
+class Emulator(gym.Env):
     def __init__(self, emulator):
         self.emulator = emulator
         self.reward_sender = None
@@ -18,6 +18,10 @@ class Vest(gym.Env):
         self.init_state = None
         self.init_action = None
         self.init_reward = None
+        
+        self.wdia = []
+        self.ip1 = []
+        self.dt1 = []
     
     def step(self, action):
         pass
