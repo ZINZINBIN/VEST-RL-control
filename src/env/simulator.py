@@ -2,10 +2,6 @@ import numpy as np
 import xgboost
 import warnings, os
 
-# CPU-based environment
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID" 
-os.environ["CUDA_VISIBLE_DEVICES"] = ""
-
 from tensorflow import convert_to_tensor
 from tensorflow.keras.models import load_model
 import keras
@@ -16,6 +12,10 @@ from typing import Dict
 import src.env.prof as prof
 
 warnings.filterwarnings(action = 'ignore')
+
+# CPU-based environment
+# os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID" 
+# os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 # converter for input data generation
 input_converter = namedtuple(
@@ -35,6 +35,8 @@ class Simulator:
         self.dt = dt
         self.ip0 = ip0
         
+        self.window_size = 15
+        
         self.set_default_geometriy()
         
         # diamagnetic energy predicter
@@ -51,14 +53,15 @@ class Simulator:
             path_scaler = path_scalers + "/scaler_%s"%MODEL + str(id)
             self.scalers.append(load(open(path_scaler, "rb")))
             path_submodel = path_models + "/%s"%MODEL + str(id) + ".h5"
-            model = load_model(path_submodel, compile=True, safe_mode=True)
+            model = load_model(path_submodel)
             self.models_wdia.append(model)
             
     def generate_wdia_input(self, t1, ip1):
         shot = 10000
         t0=0
         ip0=6e4
-        trange = np.arange(t0, t1, self.dt)
+        trange = np.linspace(t0,t1,self.window_size)
+        # trange = np.arange(t0, t1, self.dt)
         x_input = np.zeros((len(trange), 8))
 
         for i, t in enumerate(trange):
@@ -111,7 +114,9 @@ class Simulator:
         
         return inputs_list
     
-    def predict(self, inputs:np.array):
+    def predict(self, action:Dict):
+        
+        inputs = np.array([action[key] for key in action.keys()])
         
         if inputs.ndim == 1:
             inputs = inputs.reshape(1,-1)
@@ -125,12 +130,12 @@ class Simulator:
         
         dia_list = []
         for dia_input, model in zip(dia_input_scaled_list, self.models_wdia):
-            dia_predicted = model.predict(dia_input)
+            dia_predicted = model.predict(convert_to_tensor(dia_input.reshape(1,self.window_size, -1)[:,:,2:]))
             dia_list.append(dia_predicted)
         
-        dias_integral = np.mean(dia_list).sum(axis = 1).reshape(-1,)
+        dias_integral = np.mean(dia_list)
         
-        return t1, ip1, dias_integral
+        return t1.item(), ip1.item(), dias_integral.item()
 
 
 if __name__ == "__main__":

@@ -1,3 +1,6 @@
 # ignore .pt
 weights/*
 *.pt
+
+# pickle files
+*.pkl

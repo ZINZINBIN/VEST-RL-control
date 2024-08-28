@@ -72,7 +72,7 @@ class ReplayBuffer(object):
             self.memory = pickle.load(f)
 
 class ActorCritic(nn.Module):
-    def __init__(self, input_dim : int, mlp_dim : int, n_actions : int, action_range : Dict, std : float = 0.5):
+    def __init__(self, input_dim : int, mlp_dim : int, n_actions : int, std : float = 0.5):
         super(ActorCritic, self).__init__()
         
         self.fc1 = nn.Linear(input_dim, mlp_dim)
@@ -217,15 +217,21 @@ def train_ppo(
         action = action_tensor.detach().squeeze(0).cpu().numpy()
         
         ctrl_new = {
-            'betan':action[0],
-            'k':action[1],
-            'epsilon' : action[2],
-            'electric_power' : action[3],
-            'T_avg' : action[4],
-            'B0' : action[5],
-            'H' : action[6],
-            "armour_thickness":action[7],
-            "RF_recirculating_rate":action[8],
+            'TF':action[0], 
+            'PF1':action[1], 
+            'PF1_2':action[2], 
+            'PF6':action[3], 
+            'PF9':action[4], 
+            'LFS_t0':action[5], 
+            'LFS_dt':action[6], 
+            'HFS_t0':action[7],
+            'HFS_dt':action[8],
+            'EC_2G':action[9], # binary
+            'EC_7G':action[10], # binary
+            'NBI_t0':action[11], 
+            'NBI_dt':action[12], 
+            'NBI_PW':action[13], 
+            'wall':action[14],
         }
         
         state_new, reward, done, _ = env.step(ctrl_new)

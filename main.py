@@ -1,7 +1,8 @@
 from src.env.vest import Emulator
 from src.rl.ppo import train_ppo, ActorCritic, ReplayBuffer
+from src.env.simulator import Simulator
 from src.rl.reward import RewardSender
-from src.utility import plot_policy_loss
+from src.utility import plot_policy_loss, plot_optimization_status
 import torch
 import pickle
 import argparse, os, warnings
@@ -28,13 +29,13 @@ def parsing():
     
     # Control env setup
     parser.add_argument("--n_target", type = int, default = 3)
-    parser.add_argument("--n_control", type = int, default = 9)
+    parser.add_argument("--n_control", type = int, default = 15)
     
     # Reward setup
-    parser.add_argument("--w_wdia", type = float, default = 0.5)
-    parser.add_argument("--w_ipdt", type = float, default = 0.5)
-    parser.add_argument("--wdia_r", type = float, default = 1.0)
-    parser.add_argument("--ipdt_r", type = float, default = 1.0)
+    parser.add_argument("--w_wdia", type = float, default = 1.0)
+    parser.add_argument("--w_ipdt", type = float, default = 0)
+    parser.add_argument("--wdia_r", type = float, default = 250)
+    parser.add_argument("--ipdt_r", type = float, default = 10) # kA/ms
     parser.add_argument("--a", type = float, default = 1.0)
     
     # Visualization
@@ -62,14 +63,15 @@ if __name__ == "__main__":
         device = 'cpu'
     
     reward_sender = RewardSender(
-        w_wdia = args['w_cost'],
-        w_ipdt = args['w_tau'],
+        w_wdia = args['w_wdia'],
+        w_ipdt = args['w_ipdt'],
         wdia_r = args['wdia_r'],
         ipdt_r = args['ipdt_r'],
         a = args['a'],
     )
     
-    env = Emulator()
+    simulator = Simulator(dt = 0.00001, ip0 = 6e4)
+    env = Emulator(simulator, reward_sender)
     
     output_dim = args['n_target']
     ctrl_dim = args['n_control']
@@ -124,6 +126,9 @@ if __name__ == "__main__":
     )
     
     print("======== Logging optimization process ========")
+    optimization_status = env.optim_status
+    plot_optimization_status(optimization_status, args['smoothing_temporal_length'], "./results/{}_optimization".format(tag))
+    
     plot_policy_loss(result['loss'], args['buffer_size'], args['smoothing_temporal_length'], "./results/{}_optimization".format(tag))
     
     with open(save_result, 'wb') as file:
