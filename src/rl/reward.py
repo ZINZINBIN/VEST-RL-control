@@ -29,7 +29,7 @@ class RewardSender:
         
         wdia = state['wdia']
         ip1 = state['ip1']
-        dt1 = state['dt1']
+        dt1 = state['t1']
         
         ipdt = ip1/dt1
         reward_wdia = self._compute_performance_reward(wdia, self.wdia_r, 1, self.a)
@@ -44,7 +44,7 @@ class RewardSender:
         
         wdia = state['wdia']
         ip1 = state['ip1']
-        dt1 = state['dt1']
+        dt1 = state['t1']
         
         ipdt = ip1/dt1
         reward_wdia = self._compute_performance_reward(wdia, self.wdia_r, 1, self.a)

@@ -15,6 +15,25 @@ Transition = namedtuple(
     ('state','action','next_state','reward','done','prob_a')
 )
 
+# action range
+action_range = {
+    'TF':[225, 420], 
+    'PF1':[3200, 4000], 
+    'PF1_2':[0, 2400], 
+    'PF6':[600, 1200], 
+    'PF9':[500, 1900], 
+    'LFS_t0':[0, 400], 
+    'LFS_dt':[0, 3], 
+    'HFS_t0':[0, 505],
+    'HFS_dt':[0, 5],
+    'EC_2G':[0, 1], # binary
+    'EC_7G':[0, 1], # binary
+    'NBI_t0':[-6000, 0], 
+    'NBI_dt':[0, 10], 
+    'NBI_PW':[0, 35], 
+    'wall':[0.005, 19.5],
+}
+
 class ReplayBuffer(object):
     def __init__(self, capacity : int):
         self.memory = deque([], maxlen = capacity)
