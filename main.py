@@ -2,7 +2,7 @@ from src.env.vest import Emulator
 from src.rl.ppo import train_ppo, ActorCritic, ReplayBuffer
 from src.env.simulator import Simulator
 from src.rl.reward import RewardSender
-from src.utility import plot_policy_loss, plot_optimization_status
+from src.utility import plot_policy_loss, plot_optimization_status, find_optimal_case
 import torch
 import pickle
 import argparse, os, warnings
@@ -34,7 +34,7 @@ def parsing():
     # Reward setup
     parser.add_argument("--w_wdia", type = float, default = 1.0)
     parser.add_argument("--w_ipdt", type = float, default = 0)
-    parser.add_argument("--wdia_r", type = float, default = 250)
+    parser.add_argument("--wdia_r", type = float, default = 0.05)
     parser.add_argument("--ipdt_r", type = float, default = 10) # kA/ms
     parser.add_argument("--a", type = float, default = 1.0)
     
@@ -77,13 +77,13 @@ if __name__ == "__main__":
     ctrl_dim = args['n_control']
     
     # policy and value network
-    policy_network = ActorCritic(input_dim = ctrl_dim + output_dim, mlp_dim = 32, n_actions = ctrl_dim, std = 0.25)
+    policy_network = ActorCritic(input_dim = ctrl_dim + output_dim, mlp_dim = 64, n_actions = ctrl_dim, std = 0.5)
     
     # gpu allocation
     policy_network.to(device)
     
     # optimizer    
-    policy_optimizer = torch.optim.RMSprop(policy_network.parameters(), lr = args['lr'])
+    policy_optimizer = torch.optim.Adam(policy_network.parameters(), lr = args['lr'])
     
     # loss function for critic network
     value_loss_fn = torch.nn.SmoothL1Loss(reduction = 'none')
@@ -126,9 +126,14 @@ if __name__ == "__main__":
     )
     
     print("======== Logging optimization process ========")
+    # save optimal case
+    find_optimal_case(result, {"filename":os.path.join("./results", "{}_stat.txt".format(args['tag']))})
+    
+    # save optimization process
     optimization_status = env.optim_status
     plot_optimization_status(optimization_status, args['smoothing_temporal_length'], "./results/{}_optimization".format(tag))
     
+    # save policy loss change
     plot_policy_loss(result['loss'], args['buffer_size'], args['smoothing_temporal_length'], "./results/{}_optimization".format(tag))
     
     with open(save_result, 'wb') as file:

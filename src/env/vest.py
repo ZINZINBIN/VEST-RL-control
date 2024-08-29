@@ -6,25 +6,25 @@ from src.rl.reward import RewardSender
 INIT_ACTION = {
     "TF" 		: 420.0,
     "PF1"		: 3614.346,
-    "PF1_2"	: 383.5744,
+    "PF1_2"	    : 383.5744,
     "PF6"		: 600.0226,
     "PF9"		: 1721.424,
     "LFS_t0"	: 0.0, 
     "LFS_dt"	: 0.0, 
     "HFS_t0"	: 0.053055,  
     "HFS_dt"	: 0.000000,
-    "EC_2G"	:0,    
-    "EC_7G"	:1,   
+    "EC_2G"	    :0,    
+    "EC_7G"	    :1,   
     "NBI_t0"	: -1984.84, 
     "NBI_dt"	: 0.828, 
     "NBI_PW"	: 32.545,  
-    "wall"	: 5.059, 
+    "wall"	    : 5.059, 
 }
 
 INIT_STATE = {
     "t1":17.47,
     "ip1":157.04, 
-    "wdia":274.55
+    "wdia":0.004219 # 274.55
 }
 
 class Emulator(gym.Env):

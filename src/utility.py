@@ -4,6 +4,35 @@ import os
 import matplotlib.pyplot as plt
 from typing import List, Optional, Literal, Dict, Union
 
+def find_optimal_case(result:Dict, args:Dict):
+    
+    indices = np.arange(0,len(result['reward']))
+   
+    # best reward case
+    reward = np.array([result['reward'][idx] for idx in indices])
+
+    arg_max = np.argmax(reward)
+    arg_max = indices[arg_max]
+    
+    print("\n======== VEST RL optimal configuration =========")
+    for key in result['state'][arg_max].keys():
+        print("| {} : {:.3f}".format(key, result['state'][arg_max][key]))
+        
+    for key in result['control'][arg_max].keys():
+        print("| {} : {:.3f}".format(key, result['control'][arg_max][key]))
+        
+    with open(args['filename'], "w") as f:
+        f.write("\n================================================")
+        f.write("\n======== VEST RL optimal configuration =========")
+        f.write("\n================================================")
+        
+        for key in result['state'][arg_max].keys():
+            f.write("\n| {} : {:.3f}".format(key, result['state'][arg_max][key]))
+            
+        for key in result['control'][arg_max].keys():
+            f.write("\n| {} : {:.3f}".format(key, result['control'][arg_max][key]))
+
+
 def temperal_average(X:np.array, Y:np.array, k:int):
     
     clip_length = X.shape[0] // k

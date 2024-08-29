@@ -60,8 +60,13 @@ class Simulator:
         shot = 10000
         t0=0
         ip0=6e4
-        trange = np.linspace(t0,t1,self.window_size)
-        # trange = np.arange(t0, t1, self.dt)
+        
+        # trange = np.linspace(t0,t1,self.window_size)
+        trange = np.arange(t0, t1, self.dt)
+        
+        mod = len(trange) % self.window_size
+        trange = trange[0:-mod] if mod != 0 else trange
+
         x_input = np.zeros((len(trange), 8))
 
         for i, t in enumerate(trange):
@@ -126,14 +131,15 @@ class Simulator:
         t1 = self.model_dt.predict(inputs) /  1e3 # ms -> s
         
         dia_input = self.generate_wdia_input(t1, ip1)
+        
         dia_input_scaled_list = self.adjust_scale(dia_input)
         
         dia_list = []
         for dia_input, model in zip(dia_input_scaled_list, self.models_wdia):
-            dia_predicted = model.predict(convert_to_tensor(dia_input.reshape(1,self.window_size, -1)[:,:,2:]))
+            dia_predicted = model.predict(convert_to_tensor(dia_input.reshape(-1, self.window_size, 8)[:,:,2:]))
             dia_list.append(dia_predicted)
         
-        dias_integral = np.mean(dia_list)
+        dias_integral = np.mean(dia_list).sum(axis = 0) * self.dt * self.window_size
         
         return t1.item(), ip1.item(), dias_integral.item()
 
