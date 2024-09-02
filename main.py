@@ -32,10 +32,10 @@ def parsing():
     parser.add_argument("--n_control", type = int, default = 15)
     
     # Reward setup
-    parser.add_argument("--w_wdia", type = float, default = 1.0)
-    parser.add_argument("--w_ipdt", type = float, default = 0)
+    parser.add_argument("--w_wdia", type = float, default = 0.5)
+    parser.add_argument("--w_dt", type = float, default = 0.5)
     parser.add_argument("--wdia_r", type = float, default = 0.05)
-    parser.add_argument("--ipdt_r", type = float, default = 10) # kA/ms
+    parser.add_argument("--dt_r", type = float, default = 17) # kA/ms
     parser.add_argument("--a", type = float, default = 1.0)
     
     # Visualization
@@ -64,9 +64,9 @@ if __name__ == "__main__":
     
     reward_sender = RewardSender(
         w_wdia = args['w_wdia'],
-        w_ipdt = args['w_ipdt'],
+        w_dt = args['w_dt'],
         wdia_r = args['wdia_r'],
-        ipdt_r = args['ipdt_r'],
+        dt_r = args['dt_r'],
         a = args['a'],
     )
     

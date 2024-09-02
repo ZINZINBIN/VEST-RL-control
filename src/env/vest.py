@@ -4,21 +4,21 @@ from src.env.simulator import Simulator
 from src.rl.reward import RewardSender
 
 INIT_ACTION = {
-    "TF" 		: 420.0,
-    "PF1"		: 3614.346,
-    "PF1_2"	    : 383.5744,
-    "PF6"		: 600.0226,
-    "PF9"		: 1721.424,
-    "LFS_t0"	: 0.0, 
-    "LFS_dt"	: 0.0, 
-    "HFS_t0"	: 0.053055,  
-    "HFS_dt"	: 0.000000,
+    "TF" 		: 350.0,
+    "PF1"		: 3600.0,
+    "PF1_2"	    : 400.0,
+    "PF6"		: 700.0,
+    "PF9"		: 1500.0,
+    "LFS_t0"	: 100.0, 
+    "LFS_dt"	: 1.0, 
+    "HFS_t0"	: 100.0,  
+    "HFS_dt"	: 1.0,
     "EC_2G"	    :0,    
     "EC_7G"	    :1,   
-    "NBI_t0"	: -1984.84, 
-    "NBI_dt"	: 0.828, 
-    "NBI_PW"	: 32.545,  
-    "wall"	    : 5.059, 
+    "NBI_t0"	: -2000.0, 
+    "NBI_dt"	: 0.5, 
+    "NBI_PW"	: 30.0,  
+    "wall"	    : 5.0, 
 }
 
 INIT_STATE = {
